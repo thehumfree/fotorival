@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nextio Photo Competition — Registration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F2EE;
+    --card: #FFFFFF;
+    --ink: #16140F;
+    --ink-soft: #5C584F;
+    --ink-muted: #8A867B;
+    --line: #E3DFD6;
+    --line-strong: #1C1A14;
+    --accent: #B23A1C;
+    --success-bg: #EFF5EE;
+    --success-ink: #2F5A33;
+    --error-bg: #FBEDE9;
+    --error-ink: #9B2A12;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 460px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 44px 40px 36px;
+    box-shadow: 0 1px 2px rgba(22, 20, 15, 0.04), 0 12px 40px -16px rgba(22, 20, 15, 0.12);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+  }
+
+  .brand-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', 'Times New Roman', serif;
+    font-weight: 400;
+    font-size: 38px;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    margin: 0 0 32px;
+    line-height: 1.55;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+  }
+
+  label .req {
+    color: var(--accent);
+    margin-left: 2px;
+  }
+
+  input {
+    appearance: none;
+    width: 100%;
+    padding: 11px 13px;
+    font: inherit;
+    font-size: 14.5px;
+    color: var(--ink);
+    background: #FAFAF7;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    transition: border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+  }
+
+  input::placeholder {
+    color: var(--ink-muted);
+  }
+
+  input:hover:not(:focus) {
+    border-color: #CFCABE;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--line-strong);
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(28, 26, 20, 0.08);
+  }
+
+  input.invalid {
+    border-color: var(--accent);
+    background: #FDF6F4;
+  }
+
+  .field-error {
+    display: none;
+    font-size: 12px;
+    color: var(--accent);
+    margin-top: 2px;
+  }
+
+  .field.has-error .field-error {
+    display: block;
+  }
+
+  button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 13px 16px;
+    font: inherit;
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #FFFFFF;
+    background: var(--line-strong);
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 80ms ease, background 120ms ease, opacity 120ms ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  button:hover:not(:disabled) {
+    background: #000;
+  }
+
+  button:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #FFFFFF;
+    border-radius: 50%;
+    animation: spin 700ms linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .footer {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-muted);
+    text-align: center;
+  }
+
+  /* States */
+  .alert {
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    line-height: 1.45;
+    display: none;
+    margin-bottom: 4px;
+  }
+  .alert.show { display: block; }
+  .alert.error { background: var(--error-bg); color: var(--error-ink); }
+
+  /* Success screen */
+  .success {
+    display: none;
+    text-align: center;
+    padding: 8px 0 4px;
+  }
+  .success.show { display: block; }
+
+  .success-mark {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--success-bg);
+    margin: 0 auto 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .success-mark svg {
+    width: 26px;
+    height: 26px;
+    color: var(--success-ink);
+  }
+  .success h2 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 30px;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .success p {
+    color: var(--ink-soft);
+    margin: 0 0 24px;
+    font-size: 14px;
+  }
+  .success .summary {
+    background: #FAFAF7;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: left;
+    margin-bottom: 22px;
+  }
+  .success .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 4px 0;
+  }
+  .success .summary-row .k { color: var(--ink-muted); }
+  .success .summary-row .v { color: var(--ink); font-weight: 500; }
+  .ghost-btn {
+    display: inline-block;
+    background: none;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    margin-top: 0;
+    width: auto;
+    padding: 9px 16px;
+    font-size: 13px;
+  }
+  .ghost-btn:hover:not(:disabled) { background: #FAFAF7; color: var(--ink); }
+</style>
+</head>
+<body>
+  <main class="page">
+    <div class="card" id="card">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span>Nextio</span>
+      </div>
+
+      <!-- FORM VIEW -->
+      <div id="form-view">
+        <h1>Photo <em>Competition</em></h1>
+        <p class="subtitle">Register your Full Event ticket to enter. </p>
+
+        <div class="alert error" id="form-error" role="alert"></div>
+
+        <form id="entry-form" novalidate>
+          <div class="field" id="field-email">
+            <label for="email">Email<span class="req">*</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+            <span class="field-error">Please enter your email.</span>
+          </div>
+
+          <div class="row">
+            <div class="field" id="field-firstName">
+              <label for="firstName">First name<span class="req">*</span></label>
+              <input id="firstName" name="firstName" type="text" autocomplete="given-name" placeholder="Jane" required />
+              <span class="field-error">Required.</span>
+            </div>
+            <div class="field" id="field-lastName">
+              <label for="lastName">Last name<span class="req">*</span></label>
+              <input id="lastName" name="lastName" type="text" autocomplete="family-name" placeholder="Doe" required />
+              <span class="field-error">Required.</span>
+            </div>
+          </div>
+
+          <div class="field" id="field-ticketNumber">
+            <label for="ticketNumber">Ticket number<span class="req">*</span></label>
+            <input id="ticketNumber" name="ticketNumber" type="text" autocomplete="off" placeholder="e.g. NXT-2026-0428" required />
+            <span class="field-error">Please enter your ticket number.</span>
+          </div>
+
+          <button type="submit" id="submit-btn">
+            <span id="btn-label">Submit entry</span>
+          </button>
+        </form>
+
+        <div class="footer">
+          By submitting, you agree to the competition terms.
+        </div>
+      </div>
+
+      <!-- SUCCESS VIEW -->
+      <div class="success" id="success-view">
+        <div class="success-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h2>You're entered.</h2>
+        <p>We've received your registration. A confirmation is on its way to your email.</p>
+        <div class="summary" id="summary"></div>
+        <button type="button" class="ghost-btn" id="reset-btn">Submit another entry</button>
+      </div>
+    </div>
+  </main>
+
+<script>
+(function () {
+  const form = document.getElementById('entry-form');
+  const formView = document.getElementById('form-view');
+  const successView = document.getElementById('success-view');
+  const summary = document.getElementById('summary');
+  const submitBtn = document.getElementById('submit-btn');
+  const btnLabel = document.getElementById('btn-label');
+  const formError = document.getElementById('form-error');
+  const resetBtn = document.getElementById('reset-btn');
+
+  const fields = ['email', 'firstName', 'lastName', 'ticketNumber'];
+
+  function clearErrors() {
+    fields.forEach(f => document.getElementById('field-' + f).classList.remove('has-error'));
+    formError.classList.remove('show');
+    formError.textContent = '';
+  }
+
+  function showFieldError(name) {
+    document.getElementById('field-' + name).classList.add('has-error');
+  }
+
+  function showFormError(msg) {
+    formError.textContent = msg;
+    formError.classList.add('show');
+  }
+
+  function isValidEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  }
+
+  function validate(values) {
+    let ok = true;
+    if (!values.email || !isValidEmail(values.email)) { showFieldError('email'); ok = false; }
+    if (!values.firstName) { showFieldError('firstName'); ok = false; }
+    if (!values.lastName) { showFieldError('lastName'); ok = false; }
+    if (!values.ticketNumber) { showFieldError('ticketNumber'); ok = false; }
+    return ok;
+  }
+
+  // Clear field error as user types
+  fields.forEach(f => {
+    document.getElementById(f).addEventListener('input', () => {
+      document.getElementById('field-' + f).classList.remove('has-error');
+      formError.classList.remove('show');
+    });
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearErrors();
+
+    const values = {
+      email: document.getElementById('email').value.trim(),
+      firstName: document.getElementById('firstName').value.trim(),
+      lastName: document.getElementById('lastName').value.trim(),
+      ticketNumber: document.getElementById('ticketNumber').value.trim(),
+    };
+
+    if (!validate(values)) return;
+
+    // Loading state
+    submitBtn.disabled = true;
+    btnLabel.textContent = 'Submitting';
+    const spinner = document.createElement('span');
+    spinner.className = 'spinner';
+    submitBtn.prepend(spinner);
+
+    try {
+      // NOTE: The frontend calls our OWN backend (/api/submit).
+      // The backend holds the bearer token and forwards to fotorivals.
+      // The token never reaches the browser.
+      const res = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+
+      let data = null;
+      try { data = await res.json(); } catch (_) { /* non-JSON response */ }
+
+      if (!res.ok) {
+        const msg = (data && (data.error || data.message)) || `Submission failed (${res.status}). Please try again.`;
+        throw new Error(msg);
+      }
+
+      // Render summary + show success
+      summary.innerHTML = `
+        <div class="summary-row"><span class="k">Name</span><span class="v">${escapeHtml(values.firstName + ' ' + values.lastName)}</span></div>
+        <div class="summary-row"><span class="k">Email</span><span class="v">${escapeHtml(values.email)}</span></div>
+        <div class="summary-row"><span class="k">Ticket</span><span class="v">${escapeHtml(values.ticketNumber)}</span></div>
+      `;
+      formView.style.display = 'none';
+      successView.classList.add('show');
+    } catch (err) {
+      showFormError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      submitBtn.disabled = false;
+      btnLabel.textContent = 'Submit entry';
+      const sp = submitBtn.querySelector('.spinner');
+      if (sp) sp.remove();
+    }
+  });
+
+  resetBtn.addEventListener('click', () => {
+    form.reset();
+    clearErrors();
+    successView.classList.remove('show');
+    formView.style.display = '';
+    document.getElementById('email').focus();
+  });
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  // Auto-focus first field
+  window.addEventListener('load', () => document.getElementById('email').focus());
+})();
+</script>
+</body>
+</html>

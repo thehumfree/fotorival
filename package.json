@@ -1,0 +1,9 @@
+{
+  "name": "nextio-photo-competition",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Registration form + secure proxy for the Nextio Photo Competition. Single Vercel deployment.",
+  "engines": {
+    "node": ">=18.17"
+  }
+}
