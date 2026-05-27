@@ -54,7 +54,7 @@ export default async function handler(req, res) {
 
   // Reshape to the upstream contract: { email, firstName, lastName, token }
   // (here `token` is the ticket number, per the API spec).
-  const upstreamBody = { email, firstName, lastName, token: ticketNumber };
+  const upstreamBody = {users: [{ email, firstName, lastName, token: ticketNumber }]};
 
   try {
     const upstream = await fetch(FOTORIVALS_URL, {
